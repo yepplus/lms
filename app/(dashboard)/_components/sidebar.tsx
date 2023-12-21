@@ -1,5 +1,5 @@
-import Logo from '@/app/(dashboard)/_components/logo'
-import SidebarRoutes from '@/app/(dashboard)/_components/sidebar-routes'
+import { Logo } from './logo'
+import { SidebarRoutes } from './sidebar-routes'
 
 const Sidebar = () => {
   return (

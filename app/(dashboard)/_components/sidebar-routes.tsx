@@ -1,7 +1,7 @@
 'use client'
 
 import { Compass, Layout } from 'lucide-react'
-import SidebarItem from '@/app/(dashboard)/_components/sidebar-item'
+import { SidebarItem } from './sidebar-item'
 
 const guestRoutes = [
   {
@@ -16,7 +16,7 @@ const guestRoutes = [
   }
 ]
 
-const SidebarRoutes = () => {
+export const SidebarRoutes = () => {
   const routes = guestRoutes
   return (
     <div className="flex flex-col w-full">
@@ -31,5 +31,3 @@ const SidebarRoutes = () => {
     </div>
   )
 }
-
-export default SidebarRoutes

@@ -9,7 +9,8 @@ interface SidebarItemProps {
   label: string
   href: string
 }
-const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
+
+export const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
   const pathname = usePathname()
   const router = useRouter()
 
@@ -46,5 +47,3 @@ const SidebarItem = ({ icon: Icon, label, href }: SidebarItemProps) => {
     </button>
   )
 }
-
-export default SidebarItem
