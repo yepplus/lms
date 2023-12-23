@@ -22,7 +22,7 @@ export const NavbarRoutes = () => {
           </Button>
         </Link>
       ) : (
-        <Link href="teacher/courses">
+        <Link href="/teacher/courses">
           <Button size="sm" variant="ghost">
             Teacher mode
           </Button>
