@@ -15,6 +15,9 @@ import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Pencil } from 'lucide-react'
 import { useState } from 'react'
+import toast from 'react-hot-toast'
+import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 interface TitleFormProps {
   initialData: {
@@ -32,6 +35,7 @@ const formSchema = z.object({
 export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
   const [isEditing, setIsEditing] = useState(false)
   const toggleEdit = () => setIsEditing((current) => !current)
+  const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: initialData
@@ -39,7 +43,14 @@ export const TitleForm = ({ initialData, courseId }: TitleFormProps) => {
   const { isSubmitting, isValid } = form.formState
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values)
+    try {
+      await axios.patch(`/api/courses/${courseId}`, values)
+      toast.success('Course updated')
+      toggleEdit()
+      router.refresh()
+    } catch (e) {
+      toast.error('Something went wrong')
+    }
   }
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
