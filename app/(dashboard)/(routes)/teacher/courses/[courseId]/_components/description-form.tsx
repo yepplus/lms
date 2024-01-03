@@ -19,11 +19,10 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Textarea } from '@/components/ui/textarea'
+import { Course } from '@prisma/client'
 
 interface DescriptionFormProps {
-  initialData: {
-    description: string | undefined
-  }
+  initialData: Course
   courseId: string
 }
 
@@ -42,7 +41,9 @@ export const DescriptionForm = ({
   const router = useRouter()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: initialData
+    defaultValues: {
+      description: initialData?.description || ''
+    }
   })
   const { isSubmitting, isValid } = form.formState
 
@@ -59,7 +60,7 @@ export const DescriptionForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Description Title
+        Course Description
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
