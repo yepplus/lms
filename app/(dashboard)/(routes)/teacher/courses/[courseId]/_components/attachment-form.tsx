@@ -2,7 +2,7 @@
 
 import * as z from 'zod'
 import { Button } from '@/components/ui/button'
-import { File, PlusCircle } from 'lucide-react'
+import { File, Loader2, PlusCircle, X } from 'lucide-react'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
 import axios from 'axios'
@@ -38,6 +38,20 @@ export const AttachmentForm = ({
       toast.error('Something went wrong')
     }
   }
+
+  const onDelete = async (id: string) => {
+    try {
+      setDeletingId(id)
+      await axios.delete(`/api/courses/${courseId}/attachments/${id}`)
+      toast.success('Course deleted')
+      router.refresh()
+    } catch (e) {
+      toast.error('Something went wrong')
+    } finally {
+      setDeletingId(null)
+    }
+  }
+
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
@@ -69,6 +83,19 @@ export const AttachmentForm = ({
                 >
                   <File className="h-4 w-4 mr-2 flex-shrink-0" />
                   <p className="text-xs line-clamp-1">{attachment.name}</p>
+                  {deletingId === attachment.id && (
+                    <div>
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    </div>
+                  )}
+                  {deletingId !== attachment.id && (
+                    <button
+                      onClick={() => onDelete(attachment.id)}
+                      className="ml-auto hover:opacity-75 transition"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
