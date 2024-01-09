@@ -12,8 +12,9 @@ import { TitleForm } from './_components/title-form'
 import { DescriptionForm } from './_components/description-form'
 import { ImageForm } from './_components/image-form'
 import { CategoryForm } from './_components/category-form'
-import { PriceForm } from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/price-form'
-import { AttachmentForm } from '@/app/(dashboard)/(routes)/teacher/courses/[courseId]/_components/attachment-form'
+import { PriceForm } from './_components/price-form'
+import { AttachmentForm } from './_components/attachment-form'
+import { ChaptersForm } from './_components/chapters-form'
 
 const Page = async ({ params }: { params: { courseId: string } }) => {
   const { userId } = auth()
@@ -25,6 +26,11 @@ const Page = async ({ params }: { params: { courseId: string } }) => {
       id: params.courseId
     },
     include: {
+      chapters: {
+        orderBy: {
+          position: 'asc'
+        }
+      },
       attachments: {
         orderBy: {
           createdAt: 'desc'
@@ -47,7 +53,8 @@ const Page = async ({ params }: { params: { courseId: string } }) => {
     course.description,
     course.imageUrl,
     course.price,
-    course.categoryId
+    course.categoryId,
+    course.chapters.some((chapter) => chapter.isPublished)
   ]
   const totalFields = requiredField.length
   const completedFields = requiredField.filter(Boolean).length
@@ -83,7 +90,7 @@ const Page = async ({ params }: { params: { courseId: string } }) => {
               <IconBadge icon={ListChecks} />
               <h2 className="text-xl">Course chapters</h2>
             </div>
-            <div>TODO: Chapters</div>
+            <ChaptersForm initialData={course} courseId={course.id} />
           </div>
           <div>
             <div className="flex items-center gap-x-2">
