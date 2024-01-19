@@ -2,7 +2,9 @@ import { auth } from '@clerk/nextjs'
 import { redirect } from 'next/navigation'
 import { db } from '@/lib/db'
 import Link from 'next/link'
-import { ArrowLeft } from 'lucide-react'
+import { ArrowLeft, LayoutDashboard } from 'lucide-react'
+import { IconBadge } from '@/components/icon-badge'
+import { ChapterTitleForm } from './_components/chapter-title-form'
 
 const Page = async ({
   params
@@ -48,6 +50,19 @@ const Page = async ({
               </span>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+        <div className="space-y-4">
+          <div className="flex items-center gap-x-2">
+            <IconBadge icon={LayoutDashboard} />
+            <h2 className="text-xl">Customize your chapter</h2>
+          </div>
+          <ChapterTitleForm
+            initialData={chapter}
+            courseId={params.courseId}
+            chapterId={params.chapterId}
+          />
         </div>
       </div>
     </div>
